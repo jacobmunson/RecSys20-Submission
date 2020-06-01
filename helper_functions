@@ -1,0 +1,53 @@
+# Function for Jaccard Similarity
+jaccard_similarity <- function(input_matrix){
+  input_matrix[input_matrix > 0] = 1
+  matrix_prod = input_matrix %*% t(input_matrix)
+  non_zero_index = which(matrix_prod > 0, arr.ind=TRUE, useNames = F)
+  empty_matrix = matrix(data = 0, nrow = nrow(matrix_prod), ncol = nrow(matrix_prod)) # matrix to put jaccard values
+  input_sums = rowSums(input_matrix)
+  matrix_prod_at_non_zero = matrix_prod[non_zero_index]
+  empty_matrix[non_zero_index] = matrix_prod_at_non_zero/(input_sums[non_zero_index[,1]] + input_sums[non_zero_index[,2]] - matrix_prod_at_non_zero)
+  rownames(empty_matrix) = rownames(input_matrix)
+  colnames(empty_matrix) = rownames(empty_matrix)
+  return(empty_matrix)
+}
+
+# Function for Cosine Similarity
+cosine_similarity = function(matrix){
+  cos_sim = matrix/sqrt(rowSums(matrix * matrix))
+  cos_sim = cos_sim %*% t(cos_sim)
+  return(cos_sim)
+}
+
+
+# Splitting datasets
+chunk = function(input_to_be_split, num_splits){return(split(input_to_be_split, factor(sort(rank(input_to_be_split) %% num_splits))))}
+
+# Cross validation splits
+num_cv = 5
+cvs = chunk(input_to_be_split = sample(seq(1:nrow(dataset))), num_splits = num_cv)
+cv_df = t(combn(num_cv, num_cv - 1))
+
+train_index1 = data.frame(index = unlist(cvs[cv_df[1,]]))
+train_index2 = data.frame(index = unlist(cvs[cv_df[2,]]))
+train_index3 = data.frame(index = unlist(cvs[cv_df[3,]]))
+train_index4 = data.frame(index = unlist(cvs[cv_df[4,]]))
+train_index5 = data.frame(index = unlist(cvs[cv_df[5,]]))
+
+D1_train = dataset[train_index1$index,]
+D1_test = dataset[-train_index1$index,]
+
+D2_train = dataset[train_index2$index,]
+D2_test = dataset[-train_index2$index,]
+
+D3_train = dataset[train_index3$index,]
+D3_test = dataset[-train_index3$index,]
+
+D4_train = dataset[train_index4$index,]
+D4_test = dataset[-train_index4$index,]
+
+D5_train = dataset[train_index5$index,]
+D5_test = dataset[-train_index5$index,]
+
+
+
