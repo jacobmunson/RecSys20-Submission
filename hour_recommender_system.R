@@ -39,7 +39,8 @@ D_feature_hour %>% dim()
 ## Data Split ##
 message("Splitting data...")
 dataset = D_feature_hour
-source('GitHub/RecommenderSystems/Handling Large Data/general_cross_validation.R')
+
+# Run cross validation function in helper script on 'dataset'
 test_sets = list(D1_test, D2_test, D3_test, D4_test, D5_test)
 train_sets = list(D1_train, D2_train, D3_train, D4_train, D5_train)
 
