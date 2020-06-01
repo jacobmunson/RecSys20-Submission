@@ -11,6 +11,7 @@ jaccard_similarity <- function(input_matrix){
   colnames(empty_matrix) = rownames(empty_matrix)
   return(empty_matrix)
 }
+# jaccard_similarity() based loosely off of a solution here: https://stats.stackexchange.com/questions/49453/calculating-jaccard-or-other-association-coefficient-for-binary-data-using-matri
 
 # Function for Cosine Similarity
 cosine_similarity = function(matrix){
@@ -22,6 +23,7 @@ cosine_similarity = function(matrix){
 
 # Splitting datasets
 chunk = function(input_to_be_split, num_splits){return(split(input_to_be_split, factor(sort(rank(input_to_be_split) %% num_splits))))}
+# chunk() based off of solution here: https://stackoverflow.com/questions/3318333/split-a-vector-into-chunks-in-r
 
 # Cross validation splits
 num_cv = 5
